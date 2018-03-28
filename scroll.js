@@ -1,3 +1,9 @@
+/**
+ * 兼容IE8浏览器的滚动条插件
+ * version：2.1（测试版）
+ * author：weixiaoxin
+ * modification date：2018-03-28
+ */
 //监控DIV resize事件插件
 ;(function($,h,c){var a=$([]),e=$.resize=$.extend($.resize,{}),i,k="setTimeout",j="resize",d=j+"-special-event",b="delay",f="throttleWindow";e[b]=250;e[f]=true;$.event.special[j]={setup:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.add(l);$.data(this,d,{w:l.get(0).scrollWidth,h:l.get(0).scrollHeight});if(a.length===1){g()}},teardown:function(){if(!e[f]&&this[k]){return false}var l=$(this);a=a.not(l);l.removeData(d);if(!a.length){clearTimeout(i)}},add:function(l){if(!e[f]&&this[k]){return false}var n;function m(s,o,p){var q=$(this),r=$.data(this,d);r.w=o!==c?o:q.get(0).scrollWidth;r.h=p!==c?p:q.get(0).scrollHeight;n.apply(this,arguments)}if($.isFunction(l)){n=l;return m}else{n=l.handler;l.handler=m}}};function g(){i=h[k](function(){a.each(function(){var n=$(this),m=n.get(0).scrollWidth,l=n.get(0).scrollHeight,o=$.data(this,d);if(m!==o.w||l!==o.h){n.trigger(j,[o.w=m,o.h=l])}});g()},e[b])}})(jQuery,this);
 ;(function($, window){
@@ -324,7 +330,7 @@
                         speed = Math.ceil( mainH / 4 );
                     }
                     if(scroll) {
-                        $(document).on("mousewheel.mouseW1 DOMMouseScroll.domS1", function (e) {
+                        $this.on("mousewheel.mouseW1 DOMMouseScroll.domS1", function (e) {
                             // 兼容chrome & ie  || firefox
                             var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));
                             if( delta > 0 ) {  //向上滚
@@ -347,9 +353,8 @@
                             return false;
                         });
                     }
-                    return false;
                     $this.on('mouseout', function(){
-                        $(document).off('mousewheel.mouseW1').off('DOMMouseScroll.domS1');
+                        $this.off('mousewheel.mouseW1').off('DOMMouseScroll.domS1');
                         $this.off('mouseout');
                     });
                 });
